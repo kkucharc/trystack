@@ -11,6 +11,3 @@ app.get('/kupa', function(request, response) {
  });
 
 module.exports = app;
-// module.export = app.get('/', function(request, response){
-//    response.send("Yo zią!");
-// });
