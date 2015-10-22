@@ -1,7 +1,7 @@
 'use strict';
 var config = require('../config/config');
 var AnswerModel = require('../models/answer');
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var request = require('request')
 
 var getAnswers = exports.getAnswers = function(user) {
 	let method = 'GET';
@@ -13,29 +13,27 @@ var getAnswers = exports.getAnswers = function(user) {
 
 	var answer = new AnswerModel();
 
-
 	return new Promise( function(resolve, reject){
-		let client = new XMLHttpRequest();
-		client.open(method, combinedUrl);
-		client.send();
-
-		client.onload = function () {
-          if (this.status >= 200 && this.status < 300) {
-            console.log("2XX");
-            resolve(this.response);
-          } else {
-            console.log("Reject");
-            reject(Error(this.statusText));
-          }
-        };
-
-        client.onerror = function () {
-          reject(Error("Huston we've got problem!"));
-        };  
-	}).then(function(buffer){
-			console.log("Success", buffer);
-			//return JSON.parse(buffer.toString())
-	}, function(err) {
-			console.log("Error", err);	
-	});
+		request( {
+			uri: combinedUrl,
+			method: 'GET',
+			gzip: true
+		}, function (error, response, body) {
+			debugger;
+			if(!error && response.status >= 200 && response.status < 300){
+				console.log("Success");
+				resolve(body);
+			} else {
+				console.log("Reject");
+				reject(Error(error));
+			}
+		});
+	})
+	.then(
+		function(data) {
+      		JSON.parse(data);
+  		}, function(error) {
+      		Error(error);
+   		}
+   	);
 };

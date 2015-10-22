@@ -9,7 +9,7 @@ describe("Answers", function(){
 	it("#getAnswersFullfilled", function(done){
 		return promise.should.be.fulfilled.and.notify(done);
 	});
-	it("#getAnswersPropertiesOk", function(done){
-		return expect(promise).to.eventually.have.property("items").and.notify(done);
-	});
+	// it("#getAnswersPropertiesOk", function(done){
+	// 	return expect(promise).to.eventually.have.property("items").and.notify(done);
+	// });
 });

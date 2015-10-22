@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 
 gulp.task('server', function (){
 	server.run(['src/server.js']);
-	gulp.watch(['src/server.js', 'src/**/*.js'], [server.notify, server.run]);
+	gulp.watch(['src/server.js', 'src/**/*.js'], [server.run]);
 });
 
 
