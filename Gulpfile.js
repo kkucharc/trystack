@@ -1,14 +1,13 @@
 // Include gulp
-var gulp = require('gulp'); 
-var exec =  require('child_process').execFile;
-var mocha = require('gulp-mocha');
+var gulp = require('gulp'),
+	exec =  require('child_process').exec,
+	mocha = require('gulp-mocha'),
+	server = require('gulp-express'),
+	node;
 
-gulp.task('server', function (cb){
-	exec('node', ['src/server.js'], function (err, stdout, stderr) {
-	    console.log(stdout);
-	    console.log(stderr);
-	    cb(err);
-	});
+gulp.task('server', function (){
+	server.run(['src/server.js']);
+	gulp.watch(['src/server.js', 'src/**/*.js'], [server.notify, server.run]);
 });
 
 
@@ -17,15 +16,12 @@ gulp.task('tests', function(){
 		.pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('watch', function(cb){
-	gulp.watch('src/**/*.js', ['server']);
-});
 
 gulp.task('watch_tests', function(cb){
 	gulp.watch('**/**/*.js', ['test']);
 
 });
 
-gulp.task('default', ['tests', 'server', 'watch']);
+gulp.task('default', ['server']);
 
 gulp.task('test', ['tests', 'watch_tests']);
