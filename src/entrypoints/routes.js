@@ -17,8 +17,12 @@ app.get('/opal', function(request, response) {
 		console.log("try parse");
 		var ans = anwers.getAnswers(542270)
 			.then(function(data) {
+				return JSON.stringify(data);
+			}, function(error){
+				return Error(error);
+			})
+			.then(function(data) {
 	      		response.send(data);
-	      		console.log('lol', data);
 	    	}).catch(function(error) {
 	    		response.status(503).send("Sorry. Can't parse data");
 	      		console.log("send", error);

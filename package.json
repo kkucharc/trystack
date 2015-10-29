@@ -17,6 +17,7 @@
     "request": "2.65.0",
     "chai-as-promised": "5.1.0",
     "morgan": "1.6.1",
-    "gulp-express": "0.3.5"
+    "gulp-express": "0.3.5",
+    "mongoose": "4.2.3"
   }
 }
