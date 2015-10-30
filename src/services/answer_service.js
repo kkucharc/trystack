@@ -1,12 +1,12 @@
 'use strict';
-var config = require('../config/config');
+var config = require('../config/config').config;
 var AnswerModel = require('../models/answer');
-var request = require('request')
+var request = require('request');
 
 var getAnswersByUser = exports.getAnswers = function (user) {
   let method = 'GET';
-  let userUri = 'users/'
-  let answerUri = '/answers/'
+  let userUri = 'users/';
+  let answerUri = '/answers/';
   let site = config.site;
   let combinedUrl = config.url + userUri + user + answerUri + '?site=' + site;
 

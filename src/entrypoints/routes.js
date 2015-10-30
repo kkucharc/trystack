@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 var anwers = require('../services/answer_service');
+var users = require('../services/user_service');
 
 var morgan = require('morgan');
 var fs = require('fs')
@@ -9,24 +10,39 @@ var accessLogStream = fs.createWriteStream('./build/logs/access.log', {flags: 'a
 
 app.use(morgan('combined', {stream: accessLogStream}))
 
-app.get('/', function(request, response) {
-   			response.send("Yo zią!");
- });
+app.get('/', function (request, response) {
+  response.send("Yo zią!");
+});
 
-app.get('/opal', function(request, response) {
-		console.log("try parse");
-		var ans = anwers.getAnswers(542270)
-			.then(function(data) {
-				return JSON.stringify(data);
-			}, function(error){
-				return Error(error);
-			})
-			.then(function(data) {
-	      		response.send(data);
-	    	}).catch(function(error) {
-	    		response.status(503).send("Sorry. Can't parse data");
-	      		console.log("send", error);
-	   		});
- });
+app.get('/opal', function (request, response) {
+  console.log("try parse");
+  var ans = anwers.getAnswers(542270)
+    .then(function (data) {
+      return JSON.stringify(data);
+    }, function (error) {
+      return Error(error);
+    })
+    .then(function (data) {
+      response.send(data);
+    }).catch(function (error) {
+      response.status(503).send("Sorry. Can't parse data");
+      console.log("send", error);
+    });
+});
+
+app.post('/user', function (request, response) {
+  var user = users.add(request.body);
+  if(!user.user){
+    response.status(user.status).send("User does not exists on stackoverflow.");
+  }
+  var responseMap = {
+    user: {
+      user_id: user.user_id,
+      username: user.username
+    }
+  };
+  console.log(responseMap);
+  response.send(responseMap);
+});
 
 module.exports = app;
