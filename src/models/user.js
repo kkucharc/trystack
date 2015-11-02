@@ -1,4 +1,4 @@
-var db = require('../config/database').db,
+var db = require('../config/database').mongoose,
   Schema = db.Schema,
   ObjectId = Schema.ObjectId;
 

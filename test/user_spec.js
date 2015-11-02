@@ -2,29 +2,41 @@ var chai = require('chai');
 global.expect = chai.expect;
 var service = require('../src/services/user_service.js');
 var User = require('../src/models/user').User;
-var mongoose = require('mongoose');
-var db = require('../src/config/database');
+//var mongoose = require('mongoose');
+var db = require('../src/config/database').mongoose;
+var connect = require('../src/config/database').connect;
 
 describe('Setup db', function () {
-  db.connect('test');
+  connect('test');
   User.remove({}, function (err) {
   });
 
   describe("UserService", function () {
+    console.log("connection " + db.connection.readyState);
+
     service.save('Kaka');
-    console.log("connection1 " + mongoose.connection.readyState);
-    var foundUser = User.find({username: /^Kaka/});
     it("#saveUser", function () {
-      expect(foundUser.username).to.equal('Kaka');
-      done();
+      var promise = User.find({'username': 'Kaka'}).exec();
+
+      promise.then(function(user) {  // <- this is the Promise interface.
+          console.log(user);
+          expect(users.username).to.equal('Kaka');
+        }, function(err) {
+          console.log(err);
+        });
+
+      console.log(promise);
     });
-  });
+
+
+    });
+
 
   after(function (done) {
     // Clear collection after testing to ensure it is pristine for other tests
-    User.remove({}, function (err) {
-    });
-    mongoose.connection.close();
+    //User.remove({}, function (err) {
+    //});
+    db.connection.close();
     done();
   });
 

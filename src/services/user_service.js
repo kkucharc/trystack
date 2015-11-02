@@ -63,13 +63,14 @@ exports.add = function (body) {
 
 var save = exports.save = function (stackUser) {
   var kitty = new User({
-    username: username,
-    user_id: user_id
+    username: stackUser,
+    user_id: 1234
   });
-  console.log('Saving user %', name);
+  console.log('Saving user %s', stackUser);
   kitty.save(function (err, user) {
     console.log(this);
     console.log(user.username);
     console.log(err);
-  })
+  });
+  return kitty;
 };

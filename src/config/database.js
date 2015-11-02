@@ -7,8 +7,11 @@ exports.connect = function (dbName) {
     dbName = db.url
   }
   console.log('Connecting to ' + db.url + '/' + dbName);
-  mongoose.connect('mongodb://' + db.url + '/' + dbName);
-  return mongoose;
+  mongoose.connect('mongodb://' + db.url + '/' + dbName, function(err){
+    console.log(err);
+  });
+
+  console.log("connection " + mongoose.connection.readyState);
 };
 
 exports.close = function () {
@@ -16,4 +19,4 @@ exports.close = function () {
   mongoose.connection.close();
 };
 
-exports.db = mongoose;
+exports.mongoose = mongoose;
