@@ -7,36 +7,36 @@ var db = require('../src/config/database').mongoose;
 var connect = require('../src/config/database').connect;
 
 describe('Setup db', function () {
-  connect('test');
-  User.remove({}, function (err) {
+  before(function() {
+    connect('test');
+    User.remove({}, function (err) {
+      if (err) {
+        console.log('Problem with remove all users %s', err);
+      }
+    });
+
   });
 
   describe("UserService", function () {
-    console.log("connection " + db.connection.readyState);
-
     service.save('Kaka');
-    it("#saveUser", function () {
-      var promise = User.find({'username': 'Kaka'}).exec();
 
-      promise.then(function(user) {  // <- this is the Promise interface.
-          console.log(user);
-          expect(users.username).to.equal('Kaka');
-        }, function(err) {
-          console.log(err);
+    it("#saveUser", function (done) {
+      User.find({'username': 'Kaka'}).
+        exec().
+        then(function (user) {  // <- this is the Promise interface.
+          console.log("Username %s", user);
+          expect(user.username).to.equal('Kaka');
+          done();
+        }, function (err) {
+          console.log("Promise error %s", err);
+          done(err);
         });
-
-      console.log(promise);
     });
 
-
-    });
-
+  });
 
   after(function (done) {
-    // Clear collection after testing to ensure it is pristine for other tests
-    //User.remove({}, function (err) {
-    //});
-    db.connection.close();
+  //  db.connection.close();
     done();
   });
 

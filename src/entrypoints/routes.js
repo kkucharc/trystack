@@ -5,8 +5,8 @@ var anwers = require('../services/answer_service');
 var users = require('../services/user_service');
 
 var morgan = require('morgan');
-var fs = require('fs')
-var accessLogStream = fs.createWriteStream('./build/logs/access.log', {flags: 'a'})
+var fs = require('fs');
+var accessLogStream = fs.createWriteStream('./build/logs/access.log', {flags: 'a'});
 
 app.use(morgan('combined', {stream: accessLogStream}))
 

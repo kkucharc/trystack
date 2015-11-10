@@ -39,7 +39,7 @@ var getUser = exports.getUser = function (user_id) {
 
 function checkUser(user_id) {
   let userJson = getUser(user_id);
-  if(userJson || userJson.items){
+  if (userJson || userJson.items) {
     return {
       username: userJson.items[0].display_name,
       user_id: user_id
@@ -67,10 +67,10 @@ var save = exports.save = function (stackUser) {
     user_id: 1234
   });
   console.log('Saving user %s', stackUser);
-  kitty.save(function (err, user) {
-    console.log(this);
-    console.log(user.username);
-    console.log(err);
+  kitty.save(function (err) {
+    if (err) {
+      console.log('Save error %s', err);
+    }
   });
   return kitty;
 };
