@@ -9,11 +9,11 @@ var connect = require('../src/config/database').connect;
 describe('Setup db', function () {
   before(function() {
     connect('test');
-    User.remove({}, function (err) {
-      if (err) {
-        console.log('Problem with remove all users %s', err);
-      }
-    });
+    //User.remove({}, function (err) {
+    //  if (err) {
+    //    console.log('Problem with remove all users %s', err);
+    //  }
+    //});
 
   });
 
