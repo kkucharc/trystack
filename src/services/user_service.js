@@ -74,3 +74,11 @@ var save = exports.save = function (stackUser) {
   });
   return kitty;
 };
+
+exports.getAll = function () {
+  console.log("getting them");
+  return User.find({}, function(res, err){
+    console.log(res);
+    return res;
+  });
+};
